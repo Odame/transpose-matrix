@@ -6,6 +6,8 @@ User enters the dimensions of the matrix, and then the elements of the matrix.
 The program then computes the transpose of the matrix.
 Both the original matrix and transposed matrix will be printed to stdout.
 
+For more information on the topic 'Transpose of a Matrix', visit https://en.wikipedia.org/wiki/Transpose
+
 ---
 
 ## Dependencies

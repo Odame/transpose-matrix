@@ -10,13 +10,13 @@ const printMatrix = (matrix, title) => {
     const colOptions = {};
     for (let col = 0; col < numCols; col++)
         colOptions[`${col}`] = {
-            headingTransform: () => ' '
+            headingTransform: () => ' ' // we dont want any headings for the columns
         }
 
     const matrixString = columnify(
         matrix,
         {
-            columnSplitter: '  ',
+            columnSplitter: '  ', // add a little more space between elements in the same row
             config: colOptions
         }
     );
