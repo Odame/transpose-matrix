@@ -1,0 +1,12 @@
+{
+    "name": "matrix-transpose",
+    "version": "0.0.1",
+    "description": "Determine the transpose of a matrix",
+    "author": "Prince Odame <opodame@gmail.com> https://princeodame.com",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {}
+}
