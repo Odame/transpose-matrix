@@ -1,17 +1,30 @@
 // main entry point of the application
 const inquirer = require('inquirer');
+const columnify = require('columnify')
 
 /** Print a nicely formatted version of a matrix to console */
 const printMatrix = (matrix, title) => {
     const numRows = (matrix || []).length;
     const numCols = (matrix[0] || []).length; // all the rows contain the same number of elements
 
+    const colOptions = {};
+    for (let col = 0; col < numCols; col++)
+        colOptions[`${col}`] = {
+            headingTransform: () => ' '
+        }
+
+    const matrixString = columnify(
+        matrix,
+        {
+            columnSplitter: '  ',
+            config: colOptions
+        }
+    );
+
     console.log('\n******************************');
     console.log(`${title}  (${numRows}X${numCols})`);
     console.log('******************************');
-    for (const row of matrix) {
-        console.log(row.join(' '));
-    }
+    console.log(matrixString);
     console.log('******************************\n');
 }
 
@@ -110,16 +123,16 @@ const promptUserForInput = () => new Promise((resolve) => {
         for (let i = 0; i < numRows; i++)
             rowsQuestions.push({
                 type: 'input',
-                name: `${i}`,
+                name: `row_${i}`,
                 message: `Row ${i}>>`,
                 validate: rowInputValidator(numCols),
             })
-        
+
         console.log('Please enter the elements of each row as a space-separated list');
         inquirer.prompt(rowsQuestions).then((rowsAnswers) => {
             const matrix = [];
             for (let row = 0; row < numRows; row++)
-                matrix.push(rowsAnswers[`${row}`].trim().split(/[ ]+/))
+                matrix.push(rowsAnswers[`row_${row}`].trim().split(/[ ]+/))
             resolve(matrix);
         })
 
@@ -131,9 +144,9 @@ promptUserForInput().then((matrix) => {
     const transposedMatrix = getTranspose(matrix);
     printMatrix(transposedMatrix, 'Transposed Matrix');
 })
-.catch((err) => {
-    console.error('An error occurred while running script');
-    console.error(err);
-})
+    .catch((err) => {
+        console.error('An error occurred while running script');
+        console.error(err);
+    })
 
 
