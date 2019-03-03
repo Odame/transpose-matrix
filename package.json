@@ -8,5 +8,7 @@
     "scripts": {
         "start": "node app.js"
     },
-    "dependencies": {}
+    "dependencies": {
+        "inquirer": "^6.2.2"
+    }
 }
