@@ -30,23 +30,6 @@ const makeRowInputValidator = (numCols) => {
 }
 
 /**
- * Join multiple validators for inquirer prompt inputs
- * @param  {...()=>Promise<boolean>} validators See https://github.com/SBoudrias/Inquirer.js#objects
- * for more information on the structure of validators
- */
-const joinValidators = (...validators) => {
-    return new Promise(resolve => {
-        Promise.all(validators.map(v => v()))
-            .then(validatorValues => {
-                for (const value of validatorValues)
-                    if (value !== true)
-                        resolve(value) // resolve the first validator that fails
-                resolve(true); // resolve true if no validator failed
-            })
-    })
-}
-
-/**
  * Get number of rows and number of columns from user input (stdin)
  * @param {inquirer} inquirer
  * @returns {Promise<{numRows: number, numCols: number}>}
