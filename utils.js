@@ -23,7 +23,7 @@ const getMatrixFormattedString = (matrix, title) => {
     const numCols = (matrix[0] || []).length;
 
     // the heading will display the dimensions of the matrix
-    const heading = `(${numRows}X${numCols}) Matrix`;
+    const heading = `${numRows}X${numCols} Matrix`;
 
     // the hyphens must underline the title and heading completely
     const underline = '-'.repeat(Math.max((title || '').trim().length, heading.length));
@@ -42,7 +42,7 @@ const getMatrixFormattedString = (matrix, title) => {
         },
     ).trimLeft(); // trim() to remove the 'space-as-heading's
 
-    return `${title && `${title.trim()}\n`}${heading}\n${underline}\n${matrixBody}`;
+    return `${(title || '') && `${title.trim()}\n`}${heading}\n${underline}\n${matrixBody}`;
 };
 
 /**
