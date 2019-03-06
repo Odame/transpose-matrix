@@ -36,7 +36,19 @@ This project has only two dependencies
     ```
     yarn start
     ```
-    or
+    Alternatively, you can just run
+
     ```
-    npm run start
+    node .
     ```
+
+## Testing
+This project requires ```mocha```, ```chai``` and ```inquirer-test``` for testing.
+
+You must have these installed.
+
+    yarn install -D
+
+To run the tests:
+
+    yarn tests
