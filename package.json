@@ -11,5 +11,13 @@
     "dependencies": {
         "columnify": "^1.5.4",
         "inquirer": "^6.2.2"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "eslint": "^5.15.1",
+        "eslint-config-airbnb-base": "^13.1.0",
+        "eslint-plugin-import": "^2.16.0",
+        "inquirer-test": "^2.0.1",
+        "mocha": "^6.0.2"
     }
 }
