@@ -6,7 +6,8 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "start": "node app.js"
+        "start": "node .",
+        "test": "mocha"
     },
     "dependencies": {
         "columnify": "^1.5.4",
