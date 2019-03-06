@@ -1,9 +1,10 @@
 const { expect } = require('chai');
 const { getMatrixTranspose, isPositiveWholeNumber, getMatrixFormattedString } = require('../utils');
 const { getMatrixDimensionsFromUser, getMatrixElementsFromUser } = require('../cli');
-const run = require('inquirer-test');
+const runApp = require('inquirer-test');
 const { UP, DOWN, ENTER } = require('inquirer-test');
 const inquirer = require('inquirer');
+const path = require('path');
 
 
 describe('getMatrixTranspose()', () => {
@@ -81,10 +82,19 @@ describe('getMatrixFormattedString()', () => {
         );
     });
 
-    it('returns expected outputString', () => {
+    it('returns expected outputString with title', () => {
         const matrix = [[1, 2], [1, 2], [1, 2]];
-        const expectedOutputString = 'Test\n(3X2) Matrix\n------------\n1  2\n1  2\n1  2';
+        const expectedOutputString = 'Test\n3X2 Matrix\n----------\n1  2\n1  2\n1  2';
         const outputString = getMatrixFormattedString(matrix, 'Test');
+        expect(outputString).to.be.equals(
+            expectedOutputString, `Should return ${expectedOutputString}`
+        );
+    });
+
+    it('returns expected outputString without title', () => {
+        const matrix = [[1, 2], [1, 2], [1, 2]];
+        const expectedOutputString = '3X2 Matrix\n----------\n1  2\n1  2\n1  2';
+        const outputString = getMatrixFormattedString(matrix);
         expect(outputString).to.be.equals(
             expectedOutputString, `Should return ${expectedOutputString}`
         );
@@ -125,7 +135,7 @@ describe('getMatrixElementsFromUser()', () => {
         inquirer.prompt = (questions) => new Promise(resolve => (
             resolve(
                 questions.slice(1) // ignore the first question, which is just a message actually
-                .reduce((prev, curr) => ({ ...prev, [curr.name]: '1 2 3' }), {})
+                    .reduce((prev, curr) => ({ ...prev, [curr.name]: '1 2 3' }), {})
             )
         ));
     });
@@ -141,8 +151,8 @@ describe('getMatrixElementsFromUser()', () => {
             2,
             'For getMatrixElementsFromUser(2, 3, inquirer), the number of rows in the returned matrix should be 2'
         );
-        
-        for(const row of matrix){
+
+        for (const row of matrix) {
             expect(row).to.have.length(
                 3,
                 'For getMatrixElementsFromUser(2, 3, inquirer), the number of columns in the returned matrix should be 3'
@@ -159,5 +169,44 @@ describe('getMatrixElementsFromUser()', () => {
 // functional tests
 
 // #1: ignores 0 as a dimension.
+
 // #2: ignores invalid rows input.
 // #3: displays the right information to the console.
+
+describe('functional tests', () => {
+    const appPath = path.join(__dirname, '../.');
+
+    it('Should run successfully', async () => (
+        new Promise((resolve, reject) => {
+            runApp(
+                [appPath],
+                ['0', ENTER, '1', ENTER, '3', ENTER, ENTER, '1 2 3', ENTER]
+            )
+                // output, is whatever is printed to console at the end of running the app
+                .then((output) => {
+                    expect(output).to.match(
+                        /1X3 Matrix/g,
+                        'A 1X3 matrix (original matrix) should have been printed'
+                    );
+
+                    expect(output).to.match(
+                        /3X1 Matrix/g,
+                        'A 3X1 matrix (transposed matrix) should have been printed'
+                    )
+
+                    expect(output).to.match(
+                        new RegExp('Original Matrix', 'g'),
+                        "'Original Matrix' should have been printed to console",
+                    );
+                    expect(output).to.match(
+                        new RegExp('Transposed Matrix', 'g'),
+                        "'Transposed Matrix' should have been printed to console",
+                    );
+
+                    resolve();
+                }).catch(error => reject(error));
+
+        })
+    ));
+
+});
